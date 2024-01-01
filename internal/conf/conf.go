@@ -22,10 +22,10 @@ type Config struct {
 	} `yaml:"db"`
 }
 
-func New(fp string) *Config {
+func New() *Config {
 	var conf *Config
 
-	yamlFile, err := os.ReadFile(fp)
+	yamlFile, err := os.ReadFile("conf/config.yaml")
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}
