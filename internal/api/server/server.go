@@ -11,7 +11,7 @@ import (
 
 func Init() {
 	c := conf.New()
-	fmt.Println("Port:" + c.Http.Port)
+	fmt.Println("Starting " + c.Http.Host + ":" + c.Http.Port)
 
 	db.Init()
 
