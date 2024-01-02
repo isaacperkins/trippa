@@ -5,37 +5,46 @@ import (
 	"cmd/api/internal/domain/users/store"
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"gorm.io/gorm"
 	"log"
 	"net/http"
 )
 
-func UsersGet(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(store.UsersGet())
+func UsersGet(d *gorm.DB) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		Result(w, store.UsersGet(d))
+	}
+}
+
+func UserGet(d *gorm.DB) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		Result(w, store.UserGet(d, mux.Vars(r)["id"]))
+	}
 }
 
 func UsersAdd(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	var user users.User
+
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Println(err)
 	}
-	json.NewEncoder(w).Encode(store.UsersAdd(&user))
+
+	Result(w, store.UsersAdd(&user))
 }
 
 func UsersEdit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	var user users.User
+
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Println(err)
 	}
-	json.NewEncoder(w).Encode(store.UsersEdit(&user))
+
+	Result(w, store.UsersEdit(&user))
 }
 
 func UsersDelete(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	id := mux.Vars(r)["id"]
-	json.NewEncoder(w).Encode(store.UsersDelete(id))
+	Result(w, store.UsersDelete(id))
 }

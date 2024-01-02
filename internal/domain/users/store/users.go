@@ -4,7 +4,20 @@ import (
 	users "cmd/api/internal/domain/users/model"
 	database "cmd/api/internal/store/pgsql"
 	"fmt"
+	"gorm.io/gorm"
 )
+
+func UsersGet(d *gorm.DB) *[]users.User {
+	u := []users.User{}
+	d.Find(&u)
+	return &u
+}
+
+func UserGet(d *gorm.DB, id string) *users.User {
+	u := users.User{}
+	d.First(&u, id)
+	return &u
+}
 
 func UsersAdd(u *users.User) *users.User {
 	db := database.Get()
@@ -13,13 +26,6 @@ func UsersAdd(u *users.User) *users.User {
 		fmt.Println(r.Error)
 	}
 	return u
-}
-
-func UsersGet() *[]users.User {
-	db := database.Get()
-	u := []users.User{}
-	db.Find(&u)
-	return &u
 }
 
 func UsersEdit(u *users.User) *users.User {
@@ -40,9 +46,7 @@ func UsersDelete(id string) string {
 	return "success"
 }
 
-/*
-func Migrate() {
-	db := database.Get()
-	db.AutoMigrate(&users.User{})
+func Migrate(d *gorm.DB) string {
+	d.AutoMigrate(&users.User{})
+	return "success"
 }
-*/

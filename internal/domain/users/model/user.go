@@ -1,15 +1,14 @@
 package users
 
 import (
-	"database/sql"
 	"time"
 )
 
 type User struct {
-	ID          uint         `gorm:"primarykey"` // primary key
-	Name        string       // A regular string field
-	Email       *string      // A pointer to a string, allowing for null values
-	ActivatedAt sql.NullTime // Uses sql.NullTime for nullable time fields
-	CreatedAt   time.Time    // Automatically managed by GORM for creation time
-	UpdatedAt   time.Time    // Automatically managed by GORM for update time
+	ID        uint `gorm:"primarykey"`
+	Name      string
+	Email     string    `gorm:"not null"`
+	Password  string    `gorm:"size:255;not null"`
+	CreatedAt time.Time `gorm:"not null"`
+	UpdatedAt time.Time `gorm:"not null"`
 }

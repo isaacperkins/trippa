@@ -1,4 +1,4 @@
-package db
+package pgsql
 
 import (
 	"cmd/api/internal/conf"
@@ -9,12 +9,10 @@ import (
 
 var DB *gorm.DB
 
-func Init() {
-
-	c := conf.GetConfig().DB
+func New(c *conf.Config) *gorm.DB {
 
 	d, err := gorm.Open(postgres.New(postgres.Config{
-		DSN:                  "host=" + c.Host + " user=" + c.User + " password=" + c.Pwd + " dbname=" + c.Database + " port=5432 sslmode=disable TimeZone=Asia/Shanghai",
+		DSN:                  "host=" + c.DB.Host + " user=" + c.DB.User + " password=" + c.DB.Pwd + " dbname=" + c.DB.Database + " port=5432 sslmode=disable TimeZone=Asia/Shanghai",
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
 	}), &gorm.Config{})
 
@@ -23,6 +21,7 @@ func Init() {
 	}
 
 	DB = d
+	return d
 }
 
 func Get() *gorm.DB {

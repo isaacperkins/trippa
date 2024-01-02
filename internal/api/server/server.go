@@ -10,12 +10,13 @@ import (
 )
 
 func Init() {
+
 	c := conf.New()
-	fmt.Println("Starting " + c.Http.Host + ":" + c.Http.Port)
+	d := pgsql.New(c)
+	r := router.New(d)
 
-	db.Init()
-
-	r := router.New()
+	fmt.Println("Starting rest service: " + c.Http.Host + ":" + c.Http.Port)
 
 	log.Fatal(http.ListenAndServe(c.Http.Host+":8080", r))
+
 }
