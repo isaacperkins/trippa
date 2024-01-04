@@ -3,7 +3,7 @@ package server
 import (
 	"cmd/api/internal/api/router"
 	"cmd/api/internal/conf"
-	"cmd/api/internal/store/pgsql"
+	db "cmd/api/internal/store/database"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,7 +12,7 @@ import (
 func Init() {
 
 	c := conf.New()
-	d := pgsql.New(c)
+	d := db.New(c)
 	r := router.New(d)
 
 	fmt.Println("Starting rest service: " + c.Http.Host + ":" + c.Http.Port)

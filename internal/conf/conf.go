@@ -15,6 +15,7 @@ type Config struct {
 		Port   string `yaml:"port"`
 	} `yaml:"http"`
 	DB struct {
+		Flavor   string `yaml:"flavor"`
 		Host     string `yaml:"host"`
 		Database string `yaml:"database"`
 		User     string `yaml:"user""`

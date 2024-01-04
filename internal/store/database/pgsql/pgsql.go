@@ -23,7 +23,3 @@ func New(c *conf.Config) *gorm.DB {
 	DB = d
 	return d
 }
-
-func Get() *gorm.DB {
-	return DB
-}

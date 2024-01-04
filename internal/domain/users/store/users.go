@@ -2,7 +2,6 @@ package store
 
 import (
 	users "cmd/api/internal/domain/users/model"
-	database "cmd/api/internal/store/pgsql"
 	"fmt"
 	"gorm.io/gorm"
 )
@@ -19,27 +18,24 @@ func UserGet(d *gorm.DB, id string) *users.User {
 	return &u
 }
 
-func UsersAdd(u *users.User) *users.User {
-	db := database.Get()
-	r := db.Create(&u)
+func UsersAdd(d *gorm.DB, u *users.User) *users.User {
+	r := d.Create(&u)
 	if r.Error != nil {
 		fmt.Println(r.Error)
 	}
 	return u
 }
 
-func UsersEdit(u *users.User) *users.User {
-	db := database.Get()
-	r := db.Save(&u)
+func UsersEdit(d *gorm.DB, u *users.User) *users.User {
+	r := d.Save(&u)
 	if r.Error != nil {
 		fmt.Println(r.Error)
 	}
 	return u
 }
 
-func UsersDelete(id string) string {
-	db := database.Get()
-	r := db.Delete(&users.User{}, id)
+func UsersDelete(d *gorm.DB, id string) string {
+	r := d.Delete(&users.User{}, id)
 	if r.Error != nil {
 		fmt.Println(r.Error)
 	}

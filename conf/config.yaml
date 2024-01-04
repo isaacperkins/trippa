@@ -4,6 +4,7 @@ http:
   port: "8080"
 db:
   host: "localhost"
+  flavor: "pgsql"
   database: "trippa"
   user: "postgres"
   pwd: "asdf1234"
